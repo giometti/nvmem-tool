@@ -13,6 +13,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <endian.h>
+#include <linux/limits.h>
 
 enum nvmem_type_e {
         NVMEM_TYPE_UNKNOWN,

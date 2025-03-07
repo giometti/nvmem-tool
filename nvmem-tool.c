@@ -16,7 +16,6 @@
 #include <dirent.h>
 #include <libgen.h>
 #include <inttypes.h>
-#include <endian.h>
 #include "misc.h"
 #include "nvmem-tool.h"
 
