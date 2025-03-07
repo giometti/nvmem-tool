@@ -11,7 +11,7 @@ PREFIX ?= /usr
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 install: $(TARGET)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
