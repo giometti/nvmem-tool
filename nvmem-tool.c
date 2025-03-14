@@ -975,7 +975,7 @@ static void usage(void)
                 "    -h                    : print this helping message\n"
                 "    -d                    : enable debugging messages\n"
                 "    --porcelain           : enable the porcelain output\n"
-                "    --dump                : dump raw data\n"
+                "    --dump                : enable dump mode\n"
                 "    --show-all            : show also \"Unknown\" devices\n"
                 "    --format=<fmt>        : show data as \"u8\", \"u32\", \"u64\", \"mac\", or \"string\"\n"
                 "    --sysfs-dir           : set sysfs mount directory to <dir> (defaults to %s)\n", sysfs);
