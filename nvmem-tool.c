@@ -963,8 +963,8 @@ static void cmd_write_cell(char *name, char *data)
 static void usage(void)
 {
         fprintf(stderr, "usage:\n");
-        fprintf(stderr, "\t%s <options>\t\t\t\t\t: to list detected NVMEM cells\n", NAME);
-        fprintf(stderr, "\t%s <options> --nvmem\t\t\t\t: to list detected NVMEM devices\n", NAME);
+        fprintf(stderr, "\t%s <options>\t\t\t\t\t: list detected NVMEM cells\n", NAME);
+        fprintf(stderr, "\t%s <options> --nvmem\t\t\t\t: list detected NVMEM devices\n", NAME);
         fprintf(stderr, "\t%s <options> --nvmem=<dev>\t\t\t: list cells within the NVMEM device <dev>\n", NAME);
         fprintf(stderr, "\t%s <options> <cell>\t\t\t\t: read data in the first cell named <cell>\n", NAME);
         fprintf(stderr, "\t%s <options> --nvmem=<dev> <cell>\t\t, or\n", NAME);
