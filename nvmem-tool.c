@@ -890,7 +890,7 @@ static void cmd_show_nvmem(char *name)
 	}
 }
 
-static void cmd_list_cells(bool read_data)
+static void cmd_list_cells(void)
 {
 	struct nvmem_dev_t *dev;
 	struct nvmem_ofnode_t *node;
@@ -906,7 +906,7 @@ static void cmd_list_cells(bool read_data)
 			node = &dev->ofnode[c];
 	
 			nchar = print_label(dev, node);
-			if (read_data) {
+			if (dump_mode) {
 				/* Do a pretty print by adding spaces */
 				nchar = nchar >= 40 ? 0 : 40 - nchar;
 				while (nchar-- > 0)
@@ -1053,7 +1053,7 @@ int main(int argc, char *argv[])
 	switch (argc - optind) {
 	case 0:
 		if (!nvmem_mode)
-			cmd_list_cells(dump_mode);
+			cmd_list_cells();
 		else {
 			if (nvmem_name)
 				cmd_show_nvmem(nvmem_name);
