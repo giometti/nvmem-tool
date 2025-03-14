@@ -44,6 +44,7 @@ enum nvmem_fmt_e {
 	NVMEM_FMT_U64,
 	NVMEM_FMT_MAC,
 	NVMEM_FMT_STRING,
+	NVMEM_FMT_RAW,
 	__NVMEM_FMT_END
 };
 
@@ -53,6 +54,7 @@ static char *nvmem_fmt_str[__NVMEM_FMT_END] = {
 	[NVMEM_FMT_U64]		= "u64",
 	[NVMEM_FMT_MAC]		= "mac",
 	[NVMEM_FMT_STRING]	= "string",
+	[NVMEM_FMT_RAW]		= "raw",
 };
 
 static struct nvmem_dev_t *nvmem_dev;
@@ -66,6 +68,7 @@ static bool dump_mode;
 static bool show_all;
 static enum nvmem_fmt_e force_fmt = __NVMEM_FMT_END;
 #define is_forced_fmt(v)	(v != __NVMEM_FMT_END)
+#define is_raw_fmt(v)		(v == NVMEM_FMT_RAW)
 static char *sysfs = "/sys";			/* the default location       */
 static bool base10;
 
@@ -162,6 +165,11 @@ static void print_string(const uint8_t *buf, size_t len)
 	printf("%s", buf);
 }
 
+static void print_raw(const uint8_t *buf, size_t len)
+{
+	fwrite(buf, len, 1, stdout);
+}
+
 static void print_buf(const uint8_t buf[], size_t len, enum nvmem_fmt_e fmt)
 {
 	switch (fmt) {
@@ -185,6 +193,10 @@ static void print_buf(const uint8_t buf[], size_t len, enum nvmem_fmt_e fmt)
 
 	case NVMEM_FMT_STRING:
 		print_string(buf, len);
+		break;
+
+	case NVMEM_FMT_RAW:
+		print_raw(buf, len);
 		break;
 
 	default:
@@ -320,6 +332,15 @@ static size_t scan_string(const char *data, uint8_t buf[], size_t len)
 	return i;
 }
 
+static size_t scan_raw(uint8_t buf[], size_t len)
+{
+	size_t i = fread(buf, len, 1, stdin);
+	if (i < 1)
+		fatal("cannot read raw data");
+
+	return len;
+}
+
 static size_t scan_buf(const char *data, uint8_t buf[], size_t len,
 						enum nvmem_fmt_e fmt)
 {
@@ -344,6 +365,13 @@ static size_t scan_buf(const char *data, uint8_t buf[], size_t len,
 
 	case NVMEM_FMT_STRING:
 		n = scan_string(data, buf, len);
+		break;
+
+	case NVMEM_FMT_RAW:
+		if (strcmp(data, "-"))
+			fatal("must specify \"-\" as data argument when "
+				"--format=raw");
+		n = scan_raw(buf, len);
 		break;
 
 	default:
@@ -935,7 +963,8 @@ static void cmd_read_cell(char *name)
 
 	len = nvmem_read_ofnode(dev, node, &buf, &buf_size);
 	print_cell(dev, node, buf, len);
-	printf("\n");
+	if (!is_raw_fmt(force_fmt))
+		printf("\n");
 
 	free(buf);
 }
@@ -977,7 +1006,7 @@ static void usage(void)
                 "    --porcelain           : enable the porcelain output\n"
                 "    --dump                : enable dump mode\n"
                 "    --show-all            : show also \"Unknown\" devices\n"
-                "    --format=<fmt>        : show data as \"u8\", \"u32\", \"u64\", \"mac\", or \"string\"\n"
+                "    --format=<fmt>        : show data as \"u8\", \"u32\", \"u64\", \"mac\", \"string\", or \"raw\"\n"
                 "    --sysfs-dir           : set sysfs mount directory to <dir> (defaults to %s)\n", sysfs);
 }
 
