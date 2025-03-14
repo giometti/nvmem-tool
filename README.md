@@ -123,7 +123,7 @@ And as bytes stream we can write within it:
 
 Other supported formats are:
 
-* `u8`: for unsigned 8 bits int (defualt)
+* `u8`: for unsigned 8 bits int (default)
 * `u32`: for unsigned integer at 32 bits
 * `u64`: for unsigned integer at 64 bits
 * `mac`: for MAC address
