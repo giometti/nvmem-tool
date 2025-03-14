@@ -128,6 +128,23 @@ Other supported formats are:
 * `u64`: for unsigned integer at 64 bits
 * `mac`: for MAC address
 * `string`: for ASCII string
+* `raw`: for raw data
+
+Latest format, that is `raw`, can be used to read from and write to files. For example,
+we can read cell data and write directly into a file:
+
+    # nvmem-tool --format=raw eeprom@51:halfhours@40 > file
+    # hexdump -C file
+    00000000  31 30 32 34 00 ff ff ff  ff ff ff ff ff ff ff ff  |1024............|
+    00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+    00000020
+
+And we can write cell data from file as shown below:
+
+    # tr 4 5 < file > new_file
+    # nvmem-tool --format=raw eeprom@51:halfhours@40 - < new_file
+    # nvmem-tool --format=string eeprom@51:halfhours@40
+    1025
 
 The usage message
 -----------------
