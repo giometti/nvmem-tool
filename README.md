@@ -153,26 +153,19 @@ The current usage message is reported below:
 
     # nvmem-tool -h
     usage:
-            nvmem-tool <options>                                    : to list detect
-    ed NVMEM cells
-            nvmem-tool <options> --nvmem                            : to list detect
-    ed NVMEM devices
-            nvmem-tool <options> --nvmem=<dev>                      : list cells wit
-    hin the NVMEM device <dev>
-            nvmem-tool <options> <cell>                             : read data in t
-    he first cell named <cell>
+            nvmem-tool <options>                                    : list detected NVMEM cells
+            nvmem-tool <options> --nvmem                            : list detected NVMEM devices
+            nvmem-tool <options> --nvmem=<dev>                      : list cells within the NVMEM device <dev>
+            nvmem-tool <options> <cell>                             : read data in the first cell named <cell>
             nvmem-tool <options> --nvmem=<dev> <cell>               , or
-            nvmem-tool <options> <dev>:<cell>                       : read data in t
-    he cell named <cell> within the NVMEM device <dev>
+            nvmem-tool <options> <dev>:<cell>                       : read data in the cell named <cell> within the NVMEM device <dev>
             nvmem-tool <options> --nvmem=<dev> <cell> <data>        , or
-            nvmem-tool <options> <dev>:<cell> <data>                : write <data> i
-    n the cell named <cell> within the NVMEM device <dev>
+            nvmem-tool <options> <dev>:<cell> <data>                : write <data> in the cell named <cell> within the NVMEM device <dev>
       <options> can be one or more of:
         -h                    : print this helping message
         -d                    : enable debugging messages
         --porcelain           : enable the porcelain output
-        --dump                : dump raw data
+        --dump                : enable dump mode
         --show-all            : show also "Unknown" devices
-        --format=<fmt>        : show data as "u8", "u32", "u64", "mac", or "string"
-        --sysfs-dir           : set sysfs mount directory to <dir> (defaults to /sys
-    )
+        --format=<fmt>        : show data as "u8", "u32", "u64", "mac", "string", or "raw"
+        --sysfs-dir           : set sysfs mount directory to <dir> (defaults to /sys)
