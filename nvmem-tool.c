@@ -116,6 +116,10 @@ static void print_buf_u(const size_t bits, const uint8_t buf[], size_t len)
 	const uint32_t *pu32 = (const uint32_t *) buf;
 	const uint64_t *pu64 = (const uint64_t *) buf;
 
+	if (n == 0)
+		fatal("too few data for format");
+	if (n * (bits / 8) != len)
+		fatal("invalid data alignment for format");
 	for (i = 0; i < n; i++) {
 		switch (bits) {
 		case 8:
