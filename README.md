@@ -171,3 +171,46 @@ The current usage message is reported below:
         --show-all            : show also "Unknown" devices
         --format=<fmt>        : show data as "u8", "u16", "u32", "u64", "mac", "string", or "raw"
         --sysfs-dir           : set sysfs mount directory to <dir> (defaults to /sys)
+
+### The dump mode
+
+The `--dump` option argument can be used to display at once the cells' content:
+
+    # nvmem-tool --dump
+    reboot_mode:reboot-mode                 00012200
+    nvram@5c00a100:tamp-bkp@0               00 00 00 00 00 00 00 00 00 00 00 00 00 0
+    0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    nvram@5c00a100:tamp-bkp@7c              00000000
+    adc2:vrefint                            05d8
+    ethernet2:mac-address                   00:00:00:00:00:00
+    efuse@5c005000:calib@5e                 03f9
+    efuse@5c005000:mode-encoding@0          17
+    efuse@5c005000:calib@5c                 02ff
+    ethernet1:mac-address                   00:00:00:00:00:00
+    efuse@5c005000:part-number-otp@4        8800
+
+Or to dump the whole nvmem device's content, as reported below:
+
+    # nvmem-tool --dump --nvmem=efuse@5c005000
+    00000000: 17 00 00 00 00 88 00 00 10 00 10 d0 00 00 00 00
+    00000010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00000020: 10 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    00000030: f7 89 f2 7c 35 00 0e 00 0e 51 32 32 37 36 32 38
+    00000040: 80 71 d6 03 68 39 91 99 e0 01 73 7a 53 13 5d 06
+    00000050: 3d 00 d8 05 28 7a 8e 66 00 00 00 00 ff 02 f9 03
+    00000060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    ...
+    00000170: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+In the above command, data can be printed in raw format, by adding `--format=raw`  and then passed to another tool, for example:
+
+    # nvmem-tool --dump --nvmem=efuse@5c005000 --format=raw | hexdump -C
+    00000000  17 00 00 00 00 88 00 00  10 00 10 d0 00 00 00 00  |................|
+    00000010  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    00000020  10 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    00000030  f7 89 f2 7c 35 00 0e 00  0e 51 32 32 37 36 32 38  |...|5....Q227628|
+    00000040  80 71 d6 03 68 39 91 99  e0 01 73 7a 53 13 5d 06  |.q..h9....szS.].|
+    00000050  3d 00 d8 05 28 7a 8e 66  00 00 00 00 ff 02 f9 03  |=...(z.f........|
+    00000060  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+    *
+    00000180
