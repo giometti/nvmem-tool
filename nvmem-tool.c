@@ -40,6 +40,7 @@ static char *nvmem_type_str[__NVMEM_TYPE_END] = {
 
 enum nvmem_fmt_e {
 	NVMEM_FMT_U8,
+	NVMEM_FMT_U16,
 	NVMEM_FMT_U32,
 	NVMEM_FMT_U64,
 	NVMEM_FMT_MAC,
@@ -50,6 +51,7 @@ enum nvmem_fmt_e {
 
 static char *nvmem_fmt_str[__NVMEM_FMT_END] = {
 	[NVMEM_FMT_U8]		= "u8",
+	[NVMEM_FMT_U16]		= "u16",
 	[NVMEM_FMT_U32]		= "u32",
 	[NVMEM_FMT_U64]		= "u64",
 	[NVMEM_FMT_MAC]		= "mac",
@@ -113,6 +115,7 @@ static void print_buf_u(const size_t bits, const uint8_t buf[], size_t len)
 	size_t i;
 	size_t n = len / (bits / 8);
 	const uint8_t *pu8 = buf;
+	const uint16_t *pu16 = (const uint16_t *) buf;
 	const uint32_t *pu32 = (const uint32_t *) buf;
 	const uint64_t *pu64 = (const uint64_t *) buf;
 
@@ -127,6 +130,13 @@ static void print_buf_u(const size_t bits, const uint8_t buf[], size_t len)
 				printf("%02" PRId8 " ", pu8[i]);
 			else
 				printf("%02" PRIx8 " ", pu8[i]);
+			break;
+
+		case 16:
+			if (base10)
+				printf("%04" PRId16 " ", pu16[i]);
+			else
+				printf("%04" PRIx16 " ", pu16[i]);
 			break;
 
 		case 32:
@@ -149,6 +159,7 @@ static void print_buf_u(const size_t bits, const uint8_t buf[], size_t len)
 	}
 }
 #define print_buf_u8(buf, len)		print_buf_u(8, buf, len)
+#define print_buf_u16(buf, len)		print_buf_u(16, buf, len)
 #define print_buf_u32(buf, len)		print_buf_u(32, buf, len)
 #define print_buf_u64(buf, len)		print_buf_u(64, buf, len)
 
@@ -179,6 +190,10 @@ static void print_buf(const uint8_t buf[], size_t len, enum nvmem_fmt_e fmt)
 	switch (fmt) {
 	case NVMEM_FMT_U8:
 		print_buf_u8(buf, len);
+		break;
+
+	case NVMEM_FMT_U16:
+		print_buf_u16(buf, len);
 		break;
 
 	case NVMEM_FMT_U32:
@@ -258,6 +273,7 @@ static size_t scan_buf_u(const size_t bits, const char *data,
 	uint64_t v;
 	int pos, n;
 	uint8_t *pu8 = buf;
+	uint16_t *pu16 = (uint16_t *) buf;
 	uint32_t *pu32 = (uint32_t *) buf;
 	uint64_t *pu64 = (uint64_t *) buf;
 	int ret;
@@ -280,6 +296,10 @@ static size_t scan_buf_u(const size_t bits, const char *data,
 			pu8[i] = v;
 			break;
 
+		case 16:
+			pu16[i] = v;
+			break;
+
 		case 32:
 			pu32[i] = v;
 			break;
@@ -296,6 +316,7 @@ static size_t scan_buf_u(const size_t bits, const char *data,
 	return i * (bits / 8);
 }
 #define scan_buf_u8(data, buf, len)	scan_buf_u(8, data, buf, len)
+#define scan_buf_u16(data, buf, len)	scan_buf_u(16, data, buf, len)
 #define scan_buf_u32(data, buf, len)	scan_buf_u(32, data, buf, len)
 #define scan_buf_u64(data, buf, len)	scan_buf_u(64, data, buf, len)
 
@@ -353,6 +374,10 @@ static size_t scan_buf(const char *data, uint8_t buf[], size_t len,
 	switch (fmt) {
 	case NVMEM_FMT_U8:
 		n = scan_buf_u8(data, buf, len);
+		break;
+
+	case NVMEM_FMT_U16:
+		n = scan_buf_u16(data, buf, len);
 		break;
 
 	case NVMEM_FMT_U32:
@@ -1010,7 +1035,7 @@ static void usage(void)
                 "    --porcelain           : enable the porcelain output\n"
                 "    --dump                : enable dump mode\n"
                 "    --show-all            : show also \"Unknown\" devices\n"
-                "    --format=<fmt>        : show data as \"u8\", \"u32\", \"u64\", \"mac\", \"string\", or \"raw\"\n"
+                "    --format=<fmt>        : show data as \"u8\", \"u16\", \"u32\", \"u64\", \"mac\", \"string\", or \"raw\"\n"
                 "    --sysfs-dir           : set sysfs mount directory to <dir> (defaults to %s)\n", sysfs);
 }
 

@@ -124,6 +124,7 @@ And as bytes stream we can write within it:
 Other supported formats are:
 
 * `u8`: for unsigned 8 bits int (default)
+* `u16`: for unsigned integer at 16 bits
 * `u32`: for unsigned integer at 32 bits
 * `u64`: for unsigned integer at 64 bits
 * `mac`: for MAC address
@@ -167,5 +168,5 @@ The current usage message is reported below:
         --porcelain           : enable the porcelain output
         --dump                : enable dump mode
         --show-all            : show also "Unknown" devices
-        --format=<fmt>        : show data as "u8", "u32", "u64", "mac", "string", or "raw"
+        --format=<fmt>        : show data as "u8", "u16", "u32", "u64", "mac", "string", or "raw"
         --sysfs-dir           : set sysfs mount directory to <dir> (defaults to /sys)
