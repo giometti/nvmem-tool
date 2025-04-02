@@ -1042,6 +1042,7 @@ static void usage(void)
         fprintf(stderr, "  <options> can be one or more of:\n"
                 "    -h                    : print this helping message\n"
                 "    -d                    : enable debugging messages\n"
+                "    --base10              : print numbers in dec instead of hex\n"
                 "    --porcelain           : enable the porcelain output\n"
                 "    --dump                : enable dump mode\n"
                 "    --show-all            : show also \"Unknown\" devices\n"
@@ -1067,6 +1068,7 @@ int main(int argc, char *argv[])
                 { "show-all",	no_argument,		NULL, 1003 },
                 { "format",	required_argument,	NULL, 1004 },
                 { "sysfs-dir",	required_argument,	NULL, 1005 },
+                { "base10",	no_argument,		NULL, 1006 },
                 { 0, 0, 0, 0 }
         };
 
@@ -1108,6 +1110,10 @@ int main(int argc, char *argv[])
 
 		case 1005:
 			sysfs = optarg;
+			break;
+
+		case 1006:
+			base10 = true;
 			break;
 
                 default:

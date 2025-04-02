@@ -165,6 +165,7 @@ The current usage message is reported below:
       <options> can be one or more of:
         -h                    : print this helping message
         -d                    : enable debugging messages
+        --base10              : print numbers in dec instead of hex
         --porcelain           : enable the porcelain output
         --dump                : enable dump mode
         --show-all            : show also "Unknown" devices
