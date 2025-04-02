@@ -241,6 +241,16 @@ static enum nvmem_fmt_e autodetect_fmt(struct nvmem_dev_t *dev,
 	    node->len == 6)
 		return NVMEM_FMT_MAC;
 
+	/* Check for simple data */
+	switch (node->len) {
+	case 2:
+		return NVMEM_FMT_U16;
+	case 4:
+		return NVMEM_FMT_U32;
+	case 8:
+		return NVMEM_FMT_U64;
+	}
+
 	return NVMEM_FMT_U8;
 }
 
