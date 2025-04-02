@@ -84,6 +84,11 @@ static bool base10;
 			printf(fmt , ## args);				\
 	} while (0)
 
+static void print_raw(const uint8_t *buf, size_t len)
+{
+	fwrite(buf, len, 1, stdout);
+}
+
 static void dump_buf(const uint8_t buf[], size_t len)
 {
 	size_t i;
@@ -178,11 +183,6 @@ static void print_string(const uint8_t *buf, size_t len)
 	if (i == len)
 		fatal("cannot print not null terminated strings!");
 	printf("%s", buf);
-}
-
-static void print_raw(const uint8_t *buf, size_t len)
-{
-	fwrite(buf, len, 1, stdout);
 }
 
 static void print_buf(const uint8_t buf[], size_t len, enum nvmem_fmt_e fmt)
