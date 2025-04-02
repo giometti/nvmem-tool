@@ -93,6 +93,11 @@ static void dump_buf(const uint8_t buf[], size_t len)
 {
 	size_t i;
 
+	if (is_raw_fmt(force_fmt)) {
+		print_raw(buf, len);
+		return;
+	}
+
 	for (i = 0; i < len; i++) {
 		if (i % 16 == 0)
 			printf("%08zx: ", i);
